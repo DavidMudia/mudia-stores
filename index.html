@@ -5,6 +5,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mudia Stores - Premium E-Commerce</title>
+  <script type="text/javascript">
+    // Redirect from 404.html for GitHub Pages SPA routing
+    (function() {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect != location.href) {
+        history.replace(redirect);
+      }
+    }());
+  </script>
 </head>
 
 <body>

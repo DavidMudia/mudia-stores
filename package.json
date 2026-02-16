@@ -1,8 +1,9 @@
 {
-  "name": "react-vite-tailwind",
+  "name": "mudia-stores",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "homepage": "https://davidmudia.github.io/mudia-stores",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
