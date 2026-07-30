@@ -27,3 +27,12 @@ yarn-error.log*
 *.swp
 *.swo
 *~
+# Environment files
+.env
+.env.*
+
+# Bun
+bun.lockb
+
+# Logs
+*.log

@@ -1,0 +1,23 @@
+{
+  "name": "mudia-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "bun prisma/seed.ts"
+  },
+  "dependencies": {
+    "@elysiajs/cookie": "^0.8.0",
+    "@elysiajs/cors": "^1.4.2",
+    "@elysiajs/jwt": "^1.4.2",
+    "@prisma/client": "5.17.0",
+    "elysia": "^1.4.29",
+    "stripe": "16.5.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "prisma": "5.17.0"
+  }
+}

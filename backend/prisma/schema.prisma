@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  password    String
+  role        Role     @default(customer)
+  avatar      String?
+  joinDate    DateTime @default(now())
+  orders      Order[]
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  description   String
+  price         Float
+  originalPrice Float?
+  image         String
+  category      String
+  rating        Float    @default(0)
+  reviews       Int      @default(0)
+  inStock       Boolean  @default(true)
+  featured      Boolean  @default(false)
+  tags          String[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  orderItems    OrderItem[]
+}
+
+model Order {
+  id                      String             @id @default(cuid())
+  userId                  String
+  user                    User               @relation(fields: [userId], references: [id])
+  items                   OrderItem[]
+  total                   Float
+  status                  OrderStatus        @default(pending)
+  date                    DateTime           @default(now())
+  shippingAddress         ShippingAddress?
+  paymentMethod           String
+  stripePaymentIntentId   String?
+  createdAt               DateTime           @default(now())
+  updatedAt               DateTime           @updatedAt
+}
+
+model OrderItem {
+  id           String  @id @default(cuid())
+  orderId      String
+  order        Order   @relation(fields: [orderId], references: [id])
+  productId    String
+  product      Product @relation(fields: [productId], references: [id])
+  quantity     Int
+  priceAtOrder Float
+}
+
+model ShippingAddress {
+  id        String @id @default(cuid())
+  orderId   String @unique
+  order     Order  @relation(fields: [orderId], references: [id])
+  fullName  String
+  address   String
+  city      String
+  state     String
+  zip       String
+  country   String
+}
+
+enum Role {
+  customer
+  admin
+}
+
+enum OrderStatus {
+  pending
+  processing
+  shipped
+  delivered
+  cancelled
+}
