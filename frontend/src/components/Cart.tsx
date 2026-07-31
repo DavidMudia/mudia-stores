@@ -2,12 +2,18 @@ import { useNavigate } from 'react-router-dom';
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, ShoppingCart, Tag } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 export function Cart() {
   const navigate = useNavigate();
   const { cart, removeFromCart, updateCartQuantity, getCartTotal, user } = useApp();
   const total = getCartTotal();
+  
+  // Shipping: free over ₦99 (numeric equivalent of $99)
   const shipping = total > 99 ? 0 : 9.99;
-  const tax = total * 0.08;
+  // Tax: 7.5% VAT (Nigerian standard)
+  const tax = total * 0.075;
   const grandTotal = total + shipping + tax;
 
   if (cart.length === 0) {
@@ -84,9 +90,9 @@ export function Cart() {
 
                   {/* Price */}
                   <div className="text-right">
-                    <p className="font-bold text-gray-900">${(item.product.price * item.quantity).toFixed(2)}</p>
+                    <p className="font-bold text-gray-900">{formatCurrency(item.product.price * item.quantity)}</p>
                     {item.quantity > 1 && (
-                      <p className="text-xs text-gray-500">${item.product.price.toFixed(2)} each</p>
+                      <p className="text-xs text-gray-500">{formatCurrency(item.product.price)} each</p>
                     )}
                   </div>
                 </div>
@@ -103,30 +109,30 @@ export function Cart() {
             <div className="space-y-3 text-sm">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal ({cart.length} items)</span>
-                <span className="font-medium">${total.toFixed(2)}</span>
+                <span className="font-medium">{formatCurrency(total)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
                 <span className={`font-medium ${shipping === 0 ? 'text-green-600' : ''}`}>
-                  {shipping === 0 ? 'FREE' : `$${shipping.toFixed(2)}`}
+                  {shipping === 0 ? 'FREE' : formatCurrency(shipping)}
                 </span>
               </div>
               <div className="flex justify-between text-gray-600">
-                <span>Estimated Tax</span>
-                <span className="font-medium">${tax.toFixed(2)}</span>
+                <span>VAT (7.5%)</span>
+                <span className="font-medium">{formatCurrency(tax)}</span>
               </div>
 
               {shipping > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-700">
                   <Tag className="w-3.5 h-3.5 inline mr-1" />
-                  Add ${(99 - total).toFixed(2)} more for free shipping!
+                  Add {formatCurrency(99 - total)} more for free shipping!
                 </div>
               )}
 
               <div className="border-t border-gray-200 pt-3">
                 <div className="flex justify-between text-lg font-bold text-gray-900">
                   <span>Total</span>
-                  <span>${grandTotal.toFixed(2)}</span>
+                  <span>{formatCurrency(grandTotal)}</span>
                 </div>
               </div>
             </div>

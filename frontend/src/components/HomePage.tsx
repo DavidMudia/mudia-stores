@@ -4,6 +4,9 @@ import { ProductCard } from './ProductCard';
 import { categories, products } from '../data';
 import { ArrowRight, Truck, Shield, RotateCcw, Headphones, Star, TrendingUp, Sparkles, ChevronRight } from 'lucide-react';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 export function HomePage() {
   const navigate = useNavigate();
   const { searchQuery } = useApp();
@@ -65,7 +68,7 @@ export function HomePage() {
                 </span>
               </h1>
               <p className="text-lg text-indigo-100 mb-8 max-w-lg">
-                Shop the latest trends with unbeatable prices. Free shipping on orders over $99 and hassle-free returns.
+                Shop the latest trends with unbeatable prices. Free shipping on orders over <span className="font-bold">₦99</span> and hassle-free returns.
               </p>
               <div className="flex flex-wrap gap-4">
                 <button
@@ -101,7 +104,7 @@ export function HomePage() {
                     />
                   </div>
                   <p className="text-white text-sm font-medium mt-2 truncate">{p.name}</p>
-                  <p className="text-indigo-200 text-sm font-bold">${p.price}</p>
+                  <p className="text-indigo-200 text-sm font-bold">{formatCurrency(p.price)}</p>
                 </div>
               ))}
             </div>
@@ -114,7 +117,7 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Truck, title: 'Free Shipping', desc: 'On orders over $99' },
+              { icon: Truck, title: 'Free Shipping', desc: 'On orders over ₦99' },
               { icon: Shield, title: 'Secure Payment', desc: '256-bit SSL encryption' },
               { icon: RotateCcw, title: 'Easy Returns', desc: '30-day money back' },
               { icon: Headphones, title: '24/7 Support', desc: 'Always here to help' },

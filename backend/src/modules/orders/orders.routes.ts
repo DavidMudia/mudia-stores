@@ -8,7 +8,6 @@ export const ordersRoutes = new Elysia({ prefix: '/orders' })
     '/',
     async ({ body, user, set }) => {
       const { items, shippingAddress, paymentMethod } = body;
-      // ✅ Cast to string to satisfy TypeScript
       const userId = user.id as string;
       const userName = user.name as string;
       try {
@@ -52,7 +51,6 @@ export const ordersRoutes = new Elysia({ prefix: '/orders' })
   })
 
   .get('/:id', async ({ params, user, set }) => {
-    // ✅ Cast params.id and user.id/role
     const order = await OrdersService.getOrderById(params.id as string);
     if (!order) {
       set.status = 404;
@@ -63,6 +61,28 @@ export const ordersRoutes = new Elysia({ prefix: '/orders' })
       return { error: 'Forbidden' };
     }
     return { order };
+  }, {
+    params: t.Object({
+      id: t.String(),
+    }),
+  })
+
+  // ✅ New endpoint for bank transfer confirmation
+  .patch('/:id/confirm', async ({ params, user, set }) => {
+    const orderId = params.id as string;
+    const order = await OrdersService.getOrderById(orderId);
+    if (!order) {
+      set.status = 404;
+      return { error: 'Order not found' };
+    }
+    // Allow only the order owner or admin to confirm
+    if (order.userId !== (user.id as string) && user.role !== 'admin') {
+      set.status = 403;
+      return { error: 'Forbidden' };
+    }
+    // Update status to 'processing' to indicate payment confirmation
+    const updated = await OrdersService.updateOrderStatus(orderId, 'processing');
+    return { order: updated };
   }, {
     params: t.Object({
       id: t.String(),

@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { Product } from '../types';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 interface ProductCardProps {
   product: Product;
 }
@@ -17,7 +20,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all group">
-      {/* Image – now clickable */}
+      {/* Image – clickable */}
       <div 
         className="relative aspect-square overflow-hidden cursor-pointer"
         onClick={handleImageClick}
@@ -38,7 +41,7 @@ export function ProductCard({ product }: ProductCardProps) {
             Out of Stock
           </span>
         )}
-        {/* Quick view button (Eye) – also triggers navigation */}
+        {/* Quick view button – triggers navigation */}
         <button
           onClick={handleImageClick}
           className="absolute bottom-3 right-3 bg-white/90 backdrop-blur p-2 rounded-full shadow-md hover:bg-white transition-colors opacity-0 group-hover:opacity-100"
@@ -58,10 +61,10 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.name}
         </h3>
         <div className="flex items-center gap-2 mb-3">
-          <span className="text-lg font-bold text-gray-900">${product.price.toFixed(2)}</span>
+          <span className="text-lg font-bold text-gray-900">{formatCurrency(product.price)}</span>
           {product.originalPrice && (
             <span className="text-sm text-gray-400 line-through">
-              ${product.originalPrice.toFixed(2)}
+              {formatCurrency(product.originalPrice)}
             </span>
           )}
         </div>

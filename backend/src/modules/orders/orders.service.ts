@@ -36,7 +36,7 @@ export const OrdersService = {
       };
     });
 
-    // 3. Create Order in DB (status pending) – get the order ID
+    // 3. Create Order in DB (status pending)
     const order = await prisma.order.create({
       data: {
         userId,
@@ -60,32 +60,36 @@ export const OrdersService = {
       },
     });
 
-    // 4. Create Stripe PaymentIntent WITH orderId in metadata
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(total * 100),
-      currency: 'usd',
-      metadata: {
-        userId,
-        orderId: order.id, // ✅ now we can track back
-      },
-    });
+    // 4. Handle payment intent creation (only for card payments)
+    let clientSecret: string | null = null;
+    if (paymentMethod !== 'bank_transfer') {
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(total * 100),
+        currency: 'usd',
+        metadata: {
+          userId,
+          orderId: order.id,
+        },
+      });
+      clientSecret = paymentIntent.client_secret;
 
-    // 5. Update order with stripePaymentIntentId
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { stripePaymentIntentId: paymentIntent.id },
-    });
+      // Update order with stripePaymentIntentId
+      await prisma.order.update({
+        where: { id: order.id },
+        data: { stripePaymentIntentId: paymentIntent.id },
+      });
+    }
 
-    // 6. Return to frontend
+    // 5. Return to frontend
     return {
       orderId: order.id,
-      clientSecret: paymentIntent.client_secret,
+      clientSecret, // null for bank_transfer
       total,
     };
   },
 
   async confirmOrder(orderId: string, paymentIntentId: string) {
-    // Called by webhook – mark order as processing
+    // Called by Stripe webhook – mark order as processing
     const order = await prisma.order.update({
       where: { id: orderId },
       data: { status: 'processing' },

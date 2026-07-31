@@ -24,6 +24,21 @@ async function main() {
   });
   console.log(`✅ Admin user created: ${admin.email}`);
 
+  // Create visitor user
+  const visitorPassword = await Bun.password.hash('Password123');
+  const visitor = await prisma.user.upsert({
+    where: { email: 'visitor@gmail.com' },
+    update: {},
+    create: {
+      name: 'Visitor User',
+      email: 'visitor@gmail.com',
+      password: visitorPassword,
+      role: 'customer',
+      joinDate: new Date(),
+    },
+  });
+  console.log(`✅ Visitor user created: ${visitor.email}`);
+
   // Seed products
   console.log(`📦 Seeding ${products.length} products...`);
   let count = 0;
@@ -68,7 +83,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error('❌ Seeding failed:', e);
-    throw e; // exits with non-zero code automatically
+    throw e;
   })
   .finally(async () => {
     await prisma.$disconnect();

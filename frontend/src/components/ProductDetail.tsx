@@ -16,6 +16,9 @@ import { useApp } from '../context/AppContext';
 import { products } from '../data';
 import { ProductCard } from './ProductCard';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -156,18 +159,17 @@ export function ProductDetail() {
 
           <div className="flex items-baseline gap-3 mb-6">
             <span className="text-4xl font-bold text-gray-900">
-              ${product.price.toFixed(2)}
+              {formatCurrency(product.price)}
             </span>
 
             {product.originalPrice && (
               <>
                 <span className="text-xl text-gray-400 line-through">
-                  ${product.originalPrice.toFixed(2)}
+                  {formatCurrency(product.originalPrice)}
                 </span>
 
                 <span className="px-2.5 py-1 bg-green-100 text-green-700 text-sm font-bold rounded-lg">
-                  Save $
-                  {(product.originalPrice - product.price).toFixed(2)}
+                  Save {formatCurrency(product.originalPrice - product.price)}
                 </span>
               </>
             )}
@@ -232,7 +234,7 @@ export function ProductDetail() {
                 className="flex-1 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200 flex items-center justify-center gap-2"
               >
                 <ShoppingCart className="w-5 h-5" />
-                Add to Cart — ${(product.price * quantity).toFixed(2)}
+                Add to Cart — {formatCurrency(product.price * quantity)}
               </button>
 
               <button className="w-12 h-12 border-2 border-gray-200 rounded-xl flex items-center justify-center hover:border-red-300 hover:bg-red-50 hover:text-red-500 transition-all">
@@ -247,7 +249,7 @@ export function ProductDetail() {
               <p className="text-xs font-medium text-gray-700">
                 Free Shipping
               </p>
-              <p className="text-xs text-gray-500">Over $99</p>
+              <p className="text-xs text-gray-500">Over ₦99</p>
             </div>
 
             <div className="text-center">

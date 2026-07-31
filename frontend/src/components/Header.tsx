@@ -22,7 +22,7 @@ export function Header() {
             {/* Top bar */}
             <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs py-1.5">
                 <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-                    <span>🚚 Free shipping on orders over $99</span>
+                    <span>🚚 Free shipping on orders over ₦99</span> {/* ✅ Updated to ₦ */}
                     <span className="hidden sm:block">📞 Support: 1-800-MUDIA</span>
                 </div>
             </div>

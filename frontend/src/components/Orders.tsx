@@ -1,8 +1,13 @@
 import { Package, ShoppingBag, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 export function Orders() {
-  const { orders, user, navigate } = useApp();
+  const navigate = useNavigate();
+  const { orders, user } = useApp();
 
   if (!user) {
     return (
@@ -13,7 +18,7 @@ export function Orders() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign in to view orders</h2>
         <p className="text-gray-500 mb-6">You need to be signed in to view your order history.</p>
         <button
-          onClick={() => navigate('auth')}
+          onClick={() => navigate('/login')}
           className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-all"
         >
           Sign In
@@ -49,7 +54,7 @@ export function Orders() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">No orders yet</h2>
         <p className="text-gray-500 mb-6">Start shopping to see your orders here.</p>
         <button
-          onClick={() => navigate('home')}
+          onClick={() => navigate('/')}
           className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-all inline-flex items-center gap-2"
         >
           <ShoppingBag className="w-5 h-5" />
@@ -80,7 +85,7 @@ export function Orders() {
                 <span className={`text-xs px-3 py-1.5 rounded-full font-bold border ${statusColors[order.status]}`}>
                   {statusIcons[order.status]} {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                 </span>
-                <span className="text-lg font-bold text-gray-900">${order.total.toFixed(2)}</span>
+                <span className="text-lg font-bold text-gray-900">{formatCurrency(order.total)}</span>
               </div>
             </div>
 
@@ -91,23 +96,23 @@ export function Orders() {
                   <div key={index} className="flex items-center gap-4">
                     <div
                       className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0 cursor-pointer"
-                      onClick={() => navigate('product', item.product.id)}
+                      onClick={() => navigate(`/products/${item.product.id}`)}
                     >
                       <img src={item.product.image} alt={item.product.name} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p
                         className="font-medium text-gray-900 cursor-pointer hover:text-indigo-600 transition-colors truncate"
-                        onClick={() => navigate('product', item.product.id)}
+                        onClick={() => navigate(`/products/${item.product.id}`)}
                       >
                         {item.product.name}
                       </p>
                       <p className="text-sm text-gray-500">
-                        Qty: {item.quantity} × ${item.product.price.toFixed(2)}
+                        Qty: {item.quantity} × {formatCurrency(item.product.price)}
                       </p>
                     </div>
                     <p className="font-semibold text-gray-900 shrink-0">
-                      ${(item.product.price * item.quantity).toFixed(2)}
+                      {formatCurrency(item.product.price * item.quantity)}
                     </p>
                   </div>
                 ))}

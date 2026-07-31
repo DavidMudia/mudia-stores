@@ -1,7 +1,7 @@
 const API_BASE =
   import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ import for navigation
+import { useNavigate } from 'react-router-dom';
 import { 
   BarChart3, Package, Users, DollarSign, TrendingUp, 
   ShoppingBag, Eye, ChevronDown, Star, Plus, Edit, Trash2, X 
@@ -9,9 +9,12 @@ import {
 import { useApp } from '../context/AppContext';
 import { Product } from '../types';
 
+// Helper to format Naira
+const formatCurrency = (amount: number) => `₦${amount.toFixed(2)}`;
+
 export function AdminDashboard() {
   const { orders, updateOrderStatus, user, showNotification, fetchOrders } = useApp();
-  const navigate = useNavigate(); // ✅ use React Router's navigate
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'products'>('overview');
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [products, setProducts] = useState<Product[]>([]);
@@ -132,11 +135,12 @@ export function AdminDashboard() {
     cancelled: 'bg-red-100 text-red-700',
   };
 
+  // Use Naira for stats
   const stats = [
-    { label: 'Total Revenue', value: `$${totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'from-green-500 to-emerald-600', change: '+12.5%' },
+    { label: 'Total Revenue', value: formatCurrency(totalRevenue), icon: DollarSign, color: 'from-green-500 to-emerald-600', change: '+12.5%' },
     { label: 'Total Orders', value: totalOrders, icon: ShoppingBag, color: 'from-blue-500 to-indigo-600', change: '+8.3%' },
     { label: 'Pending Orders', value: pendingOrders, icon: Package, color: 'from-amber-500 to-orange-600', change: '-2.1%' },
-    { label: 'Avg. Order Value', value: `$${avgOrderValue.toFixed(2)}`, icon: TrendingUp, color: 'from-purple-500 to-pink-600', change: '+4.7%' },
+    { label: 'Avg. Order Value', value: formatCurrency(avgOrderValue), icon: TrendingUp, color: 'from-purple-500 to-pink-600', change: '+4.7%' },
   ];
 
   // Category breakdown from real products
@@ -157,7 +161,7 @@ export function AdminDashboard() {
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Access Denied</h2>
         <p className="text-gray-500 mb-6">You need admin privileges to access this page.</p>
         <button
-          onClick={() => navigate('/login')} // ✅ use React Router path
+          onClick={() => navigate('/login')}
           className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl hover:bg-indigo-700 transition-all"
         >
           Sign in as Admin
@@ -267,7 +271,7 @@ export function AdminDashboard() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-gray-900">${order.total.toFixed(2)}</p>
+                      <p className="text-sm font-bold text-gray-900">{formatCurrency(order.total)}</p>
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColors[order.status]}`}>
                         {order.status}
                       </span>
@@ -329,7 +333,7 @@ export function AdminDashboard() {
                     </td>
                     <td className="px-5 py-4 text-sm text-gray-600">{order.date}</td>
                     <td className="px-5 py-4 text-sm text-gray-600">{order.items.length} items</td>
-                    <td className="px-5 py-4 text-sm font-bold text-gray-900">${order.total.toFixed(2)}</td>
+                    <td className="px-5 py-4 text-sm font-bold text-gray-900">{formatCurrency(order.total)}</td>
                     <td className="px-5 py-4">
                       <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${statusColors[order.status]}`}>
                         {order.status}
@@ -408,9 +412,9 @@ export function AdminDashboard() {
                     </td>
                     <td className="px-5 py-4">
                       <div>
-                        <span className="text-sm font-bold text-gray-900">${p.price.toFixed(2)}</span>
+                        <span className="text-sm font-bold text-gray-900">{formatCurrency(p.price)}</span>
                         {p.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through ml-1">${p.originalPrice.toFixed(2)}</span>
+                          <span className="text-xs text-gray-400 line-through ml-1">{formatCurrency(p.originalPrice)}</span>
                         )}
                       </div>
                     </td>
@@ -431,7 +435,7 @@ export function AdminDashboard() {
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-1">
                         <button
-                          onClick={() => navigate(`/products/${p.id}`)} // ✅ use React Router path
+                          onClick={() => navigate(`/products/${p.id}`)}
                           className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
                         >
                           <Eye className="w-4 h-4" />
@@ -505,7 +509,7 @@ export function AdminDashboard() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Price ($)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Price (₦)</label>
                   <input
                     type="number"
                     step="0.01"
@@ -516,7 +520,7 @@ export function AdminDashboard() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Original Price ($)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Original Price (₦)</label>
                   <input
                     type="number"
                     step="0.01"
