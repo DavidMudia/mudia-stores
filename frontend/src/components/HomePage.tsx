@@ -55,7 +55,7 @@ export function HomePage() {
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-white text-sm mb-6">
                 <Sparkles className="w-4 h-4" />
-                <span>New Season Collection 2024</span>
+                <span>New Season Collection 2026</span>
               </div>
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
                 Discover Premium

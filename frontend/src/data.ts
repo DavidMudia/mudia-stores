@@ -341,7 +341,7 @@ export const sampleOrders: Order[] = [
     ],
     total: 659.97,
     status: 'delivered',
-    date: '2024-01-15',
+    date: '20266-01-15',
     shippingAddress: {
       fullName: 'John Doe',
       address: '123 Main St',
@@ -362,7 +362,7 @@ export const sampleOrders: Order[] = [
     ],
     total: 289.98,
     status: 'shipped',
-    date: '2024-01-18',
+    date: '2026-01-18',
     shippingAddress: {
       fullName: 'Jane Smith',
       address: '456 Oak Ave',
@@ -382,7 +382,7 @@ export const sampleOrders: Order[] = [
     ],
     total: 549.99,
     status: 'processing',
-    date: '2024-01-20',
+    date: '2026-01-20',
     shippingAddress: {
       fullName: 'Bob Wilson',
       address: '789 Pine Rd',
@@ -403,7 +403,7 @@ export const sampleOrders: Order[] = [
     ],
     total: 119.97,
     status: 'pending',
-    date: '2024-01-22',
+    date: '2026-01-22',
     shippingAddress: {
       fullName: 'John Doe',
       address: '123 Main St',
@@ -424,7 +424,7 @@ export const sampleOrders: Order[] = [
     ],
     total: 279.98,
     status: 'delivered',
-    date: '2024-01-10',
+    date: '2026-01-10',
     shippingAddress: {
       fullName: 'Alice Johnson',
       address: '321 Elm St',
