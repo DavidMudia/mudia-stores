@@ -2,7 +2,8 @@ import { createContext, useContext, useState, useCallback, ReactNode, useEffect 
 import { Product, CartItem, User, Order, ShippingAddress } from '../types';
 
 // API base URL (adjust if your backend runs on a different port)
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const API_BASE =
+  import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
 interface AppState {
   user: User | null;

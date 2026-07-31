@@ -1,3 +1,5 @@
+const API_BASE =
+  import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // ✅ import for navigation
 import { 
@@ -35,7 +37,7 @@ export function AdminDashboard() {
   // Fetch products from API
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/admin/products', {
+      const res = await fetch(`${API_BASE}/admin/products`, {
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Failed to fetch products');
@@ -52,8 +54,8 @@ export function AdminDashboard() {
     setLoading(true);
     try {
       const url = editingProduct 
-        ? `http://localhost:3000/api/admin/products/${editingProduct.id}`
-        : 'http://localhost:3000/api/admin/products';
+        ? `${API_BASE}/admin/products/${editingProduct.id}`
+        : `${API_BASE}/admin/products`;
       const method = editingProduct ? 'PUT' : 'POST';
       const res = await fetch(url, {
         method,
@@ -78,7 +80,7 @@ export function AdminDashboard() {
   const deleteProduct = async (id: string) => {
     if (!confirm('Are you sure you want to delete this product?')) return;
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/products/${id}`, {
+      const res = await fetch(`${API_BASE}/admin/products/${id}`, {
         method: 'DELETE',
         credentials: 'include',
       });
