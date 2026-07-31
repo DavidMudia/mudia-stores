@@ -143,39 +143,23 @@ export function Auth() {
                     </form>
                 </div>
 
-                {/* Demo Credentials */}
+                {/* Demo Credentials – only Visitor */}
                 <div className="mt-6 bg-amber-50 border border-amber-200 rounded-2xl p-5">
                     <div className="flex items-center gap-2 mb-3">
                         <ShieldCheck className="w-5 h-5 text-amber-600" />
-                        <h3 className="font-semibold text-amber-800 text-sm">Demo Credentials</h3>
+                        <h3 className="font-semibold text-amber-800 text-sm">Demo Visitor Account</h3>
                     </div>
-                    <div className="space-y-2 text-sm">
-                        {/* Visitor Account */}
-                        <div className="flex items-center justify-between bg-white rounded-lg p-2.5 border border-amber-100">
-                            <div>
-                                <span className="text-xs font-medium text-amber-600 block">👤 Visitor</span>
-                                <span className="text-gray-700">visitor@gmail.com / Password123</span>
-                            </div>
-                            <button
-                                onClick={() => { setEmail('visitor@gmail.com'); setPassword('Password123'); }}
-                                className="text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-lg font-medium transition-colors"
-                            >
-                                Use
-                            </button>
+                    <div className="flex items-center justify-between bg-white rounded-lg p-2.5 border border-amber-100">
+                        <div>
+                            <span className="text-xs font-medium text-amber-600 block">Visitor</span>
+                            <span className="text-gray-700">visitor@gmail.com / Password123</span>
                         </div>
-                        {/* Admin Account */}
-                        <div className="flex items-center justify-between bg-white rounded-lg p-2.5 border border-amber-100">
-                            <div>
-                                <span className="text-xs font-medium text-amber-600 block">👑 Admin</span>
-                                <span className="text-gray-700">admin@mudia.com / admin123</span>
-                            </div>
-                            <button
-                                onClick={() => { setEmail('admin@mudia.com'); setPassword('admin123'); }}
-                                className="text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-lg font-medium transition-colors"
-                            >
-                                Use
-                            </button>
-                        </div>
+                        <button
+                            onClick={() => { setEmail('visitor@gmail.com'); setPassword('Password123'); }}
+                            className="text-xs bg-amber-100 hover:bg-amber-200 text-amber-800 px-3 py-1.5 rounded-lg font-medium transition-colors"
+                        >
+                            Use
+                        </button>
                     </div>
                 </div>
             </div>
