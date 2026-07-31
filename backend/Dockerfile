@@ -8,8 +8,8 @@ RUN bun install
 
 COPY . .
 
-RUN bunx prisma generate
+RUN bun prisma generate
 
 EXPOSE 3000
 
-CMD sh -c "bunx prisma migrate deploy && bun src/index.ts"
+CMD ["sh", "-c", "bun prisma migrate deploy && bun src/index.ts"]
